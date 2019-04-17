@@ -76,7 +76,7 @@ class Demo extends React.Component {
 	render() {
 		return (
 			<View>
-				<Button title="test" onPress={this.onPress}>
+				<Button title="test" onPress={this.onPress} />
 			</View>
 		)
 	}
