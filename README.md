@@ -84,4 +84,4 @@ class Demo extends React.Component {
 
 ```
 ## Licence
-[Licence](https://github.com/EspressifApp/EsptouchForIOS)
+[Licence](https://github.com/EspressifApp/EsptouchForIOS/blob/master/ESPRESSIF_MIT_LICENSE_V1.LICENSE)
