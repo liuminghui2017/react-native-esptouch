@@ -37,6 +37,16 @@ import com.espressif.iot.esptouch.IEsptouchListener;
 import java.lang.ref.WeakReference;
 import java.util.List;
 
+/**
+ * code 200:    ESPTouch success
+ * code 0      ESPTouch failed
+ * code -1:     Esptouch is not ready yet
+ * code -2:     Device don not support 5G Wifi, please make sure the currently connected Wifi is 2.4G
+ * code -3:     no Wifi connection 
+ * code -4      Android 9 need GPS permission 
+ * code -5      Create Esptouch task failed, the EspTouch port could be used by other thread
+ */
+
 
 public class RNEsptouchModule extends ReactContextBaseJavaModule implements LifecycleEventListener, ActivityCompat.OnRequestPermissionsResultCallback {
     private static final int REQUEST_PERMISSION = 0x01;
@@ -118,7 +128,7 @@ public class RNEsptouchModule extends ReactContextBaseJavaModule implements Life
 
 
     @ReactMethod
-    public void init() {
+    public void initESPTouch() {
         // issue#29上说Android 9需要授予位置权限后把GPS打开才能获取Wi-Fi信息
         if (isSDKAtLeastP()) {
             // 如果未授权位置权限
@@ -179,7 +189,7 @@ public class RNEsptouchModule extends ReactContextBaseJavaModule implements Life
         byte[] password = ByteUtil.getBytesByString(pwd);
         byte[] bssid = EspNetUtil.parseBssid2bytes(mBSSID);
         byte[] deviceCount = ByteUtil.getBytesByString("1");
-        byte[] broadcast = {(byte) broadcastType}; // 1 广播， 2 组播
+        byte[] broadcast = {(byte) broadcastType}; // 1 广播， 0 组播
 
         if (mTask != null) {
             mTask.cancelEsptouch();
@@ -342,8 +352,8 @@ public class RNEsptouchModule extends ReactContextBaseJavaModule implements Life
         @Override
         protected void onPostExecute(List<IEsptouchResult> result) {
             if (result == null) {
-                Log.i("RNEsptouchModule","建立 Esptouch 任务失败, 端口可能被其他程序占用");
-                respondToRN(-6,"建立 Esptouch 任务失败, 端口可能被其他程序占用");
+                Log.i("RNEsptouchModule","Create Esptouch task failed, the EspTouch port could be used by other thread");
+                respondToRN(-5,"Create Esptouch task failed, the EspTouch port could be used by other thread");
                 return;
             }
 
@@ -354,12 +364,12 @@ public class RNEsptouchModule extends ReactContextBaseJavaModule implements Life
                 // executing before receiving enough results
                 if (firstResult.isSuc()) {
                     // 配置成功
-                    Log.i("RNEsptouchModule","EspTouch 成功");
-                    respondToRN(200, "EspTouch 成功");
+                    Log.i("RNEsptouchModule","EspTouch success");
+                    respondToRN(200, "EspTouch succcess");
                 } else {
                     // 配置失败
-                    Log.i("RNEsptouchModule","EspTouch 配网失败");
-                    respondToRN(-7, "EspTouch 配网失败");
+                    Log.i("RNEsptouchModule","EspTouch fail");
+                    respondToRN(0, "EspTouch failed");
                 }
             }
 

@@ -1,6 +1,13 @@
 
 # react-native-esptouch
 
+## One should know that
+This is a Unofficial project. The official demo is below:
+
+[EsptouchForAndroid](https://github.com/EspressifApp/EsptouchForAndroid)
+
+[EsptouchForIOS](https://github.com/EspressifApp/EsptouchForIOS)
+
 ## Getting started
 
 `$ npm install react-native-esptouch --save`
@@ -39,7 +46,42 @@
 ```javascript
 import RNEsptouch from 'react-native-esptouch';
 
-// TODO: What to do with the module?
-RNEsptouch;
+class Demo extends React.Component {
+	constructor(props) {
+		super(props);
+		this.onPress = this.onPress.bind(this);
+	}
+
+	componentDidMount() {
+		RNEsptouch.initESPTouch();
+	}
+
+	componentWillUnmount() {
+		RNEsptouch.finish();
+	}
+
+	onPress() {
+		let connected_wifi_password = "123456";
+		let broadcast_type = 1;	// 1: broadcast;	2: multicast
+		RNEsptouch.startSmartConfig(connected_wifi_password, broadcast_type).then((res) => {
+			if (res.code == 200) {
+				// ESPTouch success
+			} else {
+				// ESPTouch failed
+				console.info(res.msg)
+			}
+		})
+	}
+
+	render() {
+		return (
+			<View>
+				<Button title="test" onPress={this.onPress}>
+			</View>
+		)
+	}
+}
+
 ```
-  
+## Licence
+[Licence](https://github.com/EspressifApp/EsptouchForIOS)
