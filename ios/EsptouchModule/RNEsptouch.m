@@ -161,8 +161,25 @@ RCT_REMAP_METHOD(startSmartConfig,
                   resolver: (RCTPromiseResolveBlock)resolve
                  rejecter:(RCTPromiseRejectBlock)reject)
 {
+    if (self.helper == nil) {
+        self.helper = [[ESPTouchHelper alloc] init];
+    }
     [self.helper startSmartConfig:pwd broadcastType:type resolver: resolve];
 }
+
+RCT_REMAP_METHOD(getNetInfo,
+                  resolver:(RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject)
+{
+    NSDictionary *netInfo = [self.helper fetchNetInfo];
+    NSString *apSsid = [netInfo objectForKey:@"SSID"];
+    NSString *apBssid = [netInfo objectForKey:@"BSSID"];
+    apSsid = apSsid == nil ? @"" : apSsid;
+    apBssid = apBssid == nil ? @"" : apBssid;
+    NSDictionary *res = @{@"ssid":apSsid,@"bssid":apBssid};
+    resolve(res);
+}
+
 
 RCT_EXPORT_METHOD(finish){
     

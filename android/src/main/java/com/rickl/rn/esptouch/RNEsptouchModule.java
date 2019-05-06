@@ -199,6 +199,14 @@ public class RNEsptouchModule extends ReactContextBaseJavaModule implements Life
     }
 
     @ReactMethod
+    public void getNetInfo(Promise promise) {
+        WritableMap map = Arguments.createMap();
+        map.putString("ssid", mSSID);
+        map.putString("bssid", mBSSID);
+        promise.resolve(map);
+    }
+
+    @ReactMethod
     public void finish() {
         mConfigPromise = null;
         if (mTask != null) {
