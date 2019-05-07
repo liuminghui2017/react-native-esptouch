@@ -46,6 +46,12 @@
     RCTLog(@"taskCount======>%d", taskCount);
     RCTLog(@"broadcast======>%@", broadcast ? @"broadcast" : @"multicast");
     
+    if (apSsid == nil || apSsid == NULL) {
+        RCTLog(@"======>no Wifi connection");
+        NSDictionary *res = @{@"code":@"-3",@"msg":@"no Wifi connection"};
+        resolve(res);
+        return;
+    }
     
     RCTLog(@"ESPTouch smartConfig...");
     dispatch_queue_t  queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);

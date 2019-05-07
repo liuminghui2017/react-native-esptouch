@@ -62,7 +62,7 @@ class Demo extends React.Component {
 
 	onPress() {
 		let connected_wifi_password = "123456";
-		let broadcast_type = 1;	// 1: broadcast;	2: multicast
+		let broadcast_type = 1;	// 1: broadcast;	0: multicast
 		RNEsptouch.startSmartConfig(connected_wifi_password, broadcast_type).then((res) => {
 			if (res.code == 200) {
 				// ESPTouch success
