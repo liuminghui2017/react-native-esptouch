@@ -83,5 +83,14 @@ class Demo extends React.Component {
 }
 
 ```
+
+## API
+getNetInfo
+```javascript
+RNEsptouch.getNetInfo().then((info) => {
+    console.log(info)
+    // { ssid, bssid }
+});
+```
 ## Licence
 [Licence](https://github.com/EspressifApp/EsptouchForIOS/blob/master/ESPRESSIF_MIT_LICENSE_V1.LICENSE)
